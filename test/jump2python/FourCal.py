@@ -5,6 +5,7 @@ Created on 2012. 1. 24.
 '''
 
 class FourCal:
+    
     def setdata(self, a, b):
         self.a = a 
         self.b = b 
