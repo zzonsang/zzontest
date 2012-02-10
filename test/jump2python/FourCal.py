@@ -22,3 +22,4 @@ class FourCal:
     def div(self):
         return self.a / self.b
     
+    
