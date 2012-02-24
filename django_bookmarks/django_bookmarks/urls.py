@@ -1,0 +1,58 @@
+# -*- encoding: utf-8 -*-
+from django.conf.urls.defaults import patterns, include, url
+from django.contrib import admin
+from django_bookmarks.bookmarks.views import main_page, user_page, logout_page, \
+    register_page, bookmark_save_page, tag_page, tag_cloud_page, search_page
+import os.path
+from django.views.generic.simple import direct_to_template
+
+# Uncomment the next two lines to enable the admin:
+admin.autodiscover()
+
+site_media = os.path.join( os.path.dirname(__file__), 'site_media')
+
+urlpatterns = patterns('',
+    # Examples:
+    # url(r'^$', 'django_bookmarks.views.home', name='home'),
+    # url(r'^django_bookmarks/', include('django_bookmarks.foo.urls')),
+
+    # Uncomment the admin/doc line below to enable admin documentation:
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+
+    # Uncomment the next line to enable the admin:
+    url(r'^admin/', include(admin.site.urls)),
+    
+    # Main page
+    url(r'^$', main_page),
+    
+    # User page
+    url(r'^user/(\w+)/$', user_page),
+
+    # Login page
+    url(r'^login/$', 'django.contrib.auth.views.login'),
+    
+    # Logout page
+    url(r'^logout/$', logout_page),
+    
+    # css
+    url(r'^site_media/(?P<path>.*)$', 
+        'django.views.static.serve', {'document_root': site_media} ),
+    
+    # 가입 페이지 
+    url(r'^register/$', register_page),
+    
+    # 가입 성공할 경우 보여주는 페이지
+    url(r'^register/success/$', direct_to_template, {'template': 'registration/register_success.html'}),
+    
+    # 북마크 저장 페이지
+    url(r'^save/$', bookmark_save_page),
+    
+    # 태그 페이지. 태그는 빈칸을 제외한 모든 문자를 허용한다.
+    url(r'^tag/([^\s]+)/$', tag_page),
+    
+    # 태그 클라우드 페이지
+    url(r'^tag/$', tag_cloud_page),
+    
+    # 검색 페이지 
+    url(r'^search/$', search_page),
+)
