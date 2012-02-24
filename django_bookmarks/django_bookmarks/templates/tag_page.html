@@ -1,4 +1,5 @@
 {% extends "base.html" %}
-{% block title %}태그: {{ tag_name|escape }}{% endblock %}
-{% block head %}태그 "{{ tag_name|escape }}"의 북마크{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Tags:" %}{{ tag_name|escape }}{% endblock %}
+{% block head %}{% trans "Bookmark of " %}{{ tag_name|escape }} {% endblock %}
 {% block content %}{% include "bookmark_list.html" %}{% endblock %}

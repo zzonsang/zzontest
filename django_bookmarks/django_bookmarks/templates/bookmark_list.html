@@ -1,12 +1,16 @@
+{% load i18n %}
 {% if bookmarks %}
 	<ul class="bookmarks">
 	{% for bookmark in bookmarks %}
 		<li>
 			<a href="{{ bookmark.link.url|escape }}" class="title">
 				{{ bookmark.title|escape }}</a>
+			{% if show_edit %}
+				<a href="/save/?url={{ bookmark.link.url|urlencode }}" class="edit">[{% trans "Edit" %}]</a>
+			{% endif %}
 			<br />
 			{% if show_tags %}
-				태그:
+				{% trans "Tags:" %}
 				{% if bookmark.tag_set.all %}
 					<ul class="tags">
 					{% for tag in bookmark.tag_set.all %}
@@ -21,7 +25,7 @@
 				<br />
 			{% endif %}
 			{% if show_user %}
-				추가한 사용자:
+				{% trans "Added by:" %}
 				<a href="/user/{{ bookmark.user.username }}/" class="username">
 				{{ bookmark.user.username }}</a>
 			{% endif %}
@@ -29,5 +33,5 @@
 	{% endfor %}
 	</ul>
 	{% else %}
-	<p>북마크가 없습니다.</p>
+	<p>{% trans "No bookmarks." %}</p>
 {% endif %}

@@ -1,6 +1,10 @@
 {% extends "base.html" %}
-{% block title %} {{ username }} {% endblock %}
-{% block head %} {{ username }}의 북마크입니다. {% endblock %} 
-{% block content %}
-	{% include "bookmark_list.html" %}
+{% load i18n %}
+{% block external %}
+	<script type="text/javascript" src="/site_media/bookmark_edit.js">
+	</script>
 {% endblock %}
+{% block title %}{% blocktrans %}{{ username }} {% endblocktrans %}{% endblock %}
+{% block head %} {% blocktrans %}Bookmarks for {{ username }} {% endblocktrans %}
+{% endblock %} 
+{% block content %}{% include "bookmark_list.html" %}{% endblock %}

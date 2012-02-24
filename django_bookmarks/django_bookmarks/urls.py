@@ -55,4 +55,7 @@ urlpatterns = patterns('',
     
     # 검색 페이지 
     url(r'^search/$', search_page),
+    
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 )
+    

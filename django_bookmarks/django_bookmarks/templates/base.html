@@ -1,8 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load i18n %}
 <html>
 <head>
-        <title>장고 북마크 | {% block title %}{% endblock %}</title>
+        <title>{% trans "Django bookmark | " %}{% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="/site_media/style.css" type="text/css" />
         <script type="text/javascript" src="/site_media/jquery.js"></script>
         <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
@@ -12,16 +13,23 @@
     <div id="nav">
    	     <a href="/">home</a> |
         {% if user.is_authenticated %}
-			<a href="/save/">북마크 추가</a> |
-			<a href="/search/">검색</a> |    	
-            {{ user.username }}님, 안녕하세요. 
-            (<a href="/logout">로그아웃</a>)
+			<a href="/save/">{% trans "Add bookmark" %}</a> |
+			<a href="/search/">{% trans "Search" %}</a> |    	
+            {{ user.username }} {% trans ", Welcome!" %}
+            (<a href="/logout">{% trans "Logout" %}</a>)
         {% else %}
-            <a href="/login/">로그인</a>
-            <a href="/register/">가입</a>
+            <a href="/login/">{% trans "Login" %}</a>
+            <a href="/register/">{% trans "Register" %}</a>
         {% endif %}
     </div>
     <h1>{% block head %}{% endblock %}</h1>
     {% block content %}{% endblock %}
+    <div id="footer">
+    	Django Bookmarks <br />
+    	Languages:
+    	<a href="/i18n/setlang/?language=en">en</a>
+    	<a href="/i18n/setlang/?language=ko">ko</a>
+    	<a href="/i18n/setlang/?language=de">de</a>    	
+    </div>
 </body>
 </html> 

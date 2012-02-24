@@ -3,41 +3,32 @@
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from django_bookmarks.bookmarks.forms import RegistrationForm, BookmarkSaveForm,\
     SearchForm
 from django_bookmarks.bookmarks.models import Link, Bookmark, Tag
+from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
 
 def main_page(request):
-#    return render_to_response('main_page.html', { 'user': request.user })
-
+#    request.session['django_language']='en'
+    
     # RequestContext 을 이용하면 기본적으로 User 정보를 넘겨주며, 추가로 다른 변수도 보낼 수 있다.
     return render_to_response('main_page.html', RequestContext(request))
-    
-#def user_page(request, username):
-#    try:
-#        user = User.objects.get(username=username)
-#    except:
-#        raise Http404('사용자를 찾을 수 없습니다.')
-#    
-#    bookmarks = user.bookmark_set.all()
-#    
-##    template = get_template('user_page.html')
-##    variables = Context( {'username': username, 'bookmarks': bookmarks } )
-##    output = template.render(variables)
-##    return HttpResponse(output)
-#    variables = RequestContext(request, { 'username': username, 
-#                                         'bookmarks': bookmarks})
-#    return render_to_response('user_page.html', variables)
 
 def user_page(request, username):
     # get_object_or_404는 첫번째 인자인 'User' 모델에서 'username'을 가져오도록 하고 없으면 '404 Page Not Found'를 출력해준다.
     user = get_object_or_404(User, username=username)
     bookmarks = user.bookmark_set.order_by('-id')
     
-    variables = RequestContext(request, { 'bookmarks': bookmarks, 'username': username, 'show_tags': True})
+    variables = RequestContext(request, { 
+                                         'bookmarks': bookmarks, 
+                                         'username': username, 
+                                         'show_tags': True,
+                                         'show_edit': username == request.user.username 
+                                         })
     
     return render_to_response('user_page.html', variables)
 
@@ -63,41 +54,87 @@ def register_page(request):
         
     return render_to_response('registration/register.html', RequestContext(request, {'form': form} ))
 
+'''
+ajax 로 POST 요청시 403 에러가 발생하고 이는 @csrf_exempt 을 이용하여 1차적으로 회피할 수는 있다.
+하지만, 올바른 방법은 아닌 것으로 보고 있다.
+bookmar_edit.js 에서 해결해야 할 이슈로 보인다.
+이번 이슈는 http://jessoclarence.blogspot.com/2011/12/django-post-csrf.html 로 처리 했음
+'''
 # 북마크 입력 페이지
 # 로그인한 사용자만 접근할 수 있도록 제한한다.
 @login_required(login_url='/login/')
 def bookmark_save_page(request):
+    ajax = request.GET.has_key('ajax')
     if request.method == 'POST':
         form = BookmarkSaveForm(request.POST)
         if form.is_valid():
+            bookmark = _bookmark_save(request, form)
+            if ajax:
+                variables = RequestContext(request, {
+                                                     'bookmarks' : [bookmark],
+                                                     'show_edit' : True,
+                                                     'show_tags' : True
+                                                     
+                })
+                return render_to_response('bookmark_list.html', variables)
+            else:
+                return HttpResponseRedirect('/user/%s/' % request.user.username)
+        else:
+            if ajax:
+                return HttpResponse('failure')
+    elif request.GET.has_key('url'):
+        url = request.GET['url']
+        title = ''
+        tags = ''
+        try:
+            link = Link.objects.get(url=url)
+            bookmark = Bookmark.objects.get(link=link, user=request.user)
+            title = bookmark.title
+            tags = ' '.join( tag.name for tag in bookmark.tag_set.all() )
             
-            # URL이 있으면 가져오고 없으면 새로 저장합니다.
-            link, dummy = Link.objects.get_or_create( url=form.cleaned_data['url'] )
-            
-            # 북마크가 있으면 가져오고 없으면 새로 저장합니다.
-            bookmark, created = Bookmark.objects.get_or_create( user=request.user, link=link )
-            
-            # 북마크 제목을 수정합니다.
-            bookmark.title = form.cleaned_data['title']
-            
-            # 북마크를 수정한 경우에는 이전에 입력된 모든 태그를 지웁니다.
-            if not created:
-                bookmark.tag_set.clear()
-            
-            # 태그 목록을 새로 만듭니다.
-            tag_names = form.cleaned_data['tags'].split()
-            for tag_name in tag_names:
-                    tag, dummy = Tag.objects.get_or_create(name=tag_name)
-                    bookmark.tag_set.add(tag)
-                    
-            # 북마크를 저장합니다.
-            bookmark.save()
-            
-            return HttpResponseRedirect('/user/%s/' % request.user.username)
+        except ObjectDoesNotExist:
+            pass
+        form = BookmarkSaveForm( {
+                                  'url':url,
+                                  'title':title,
+                                  'tags':tags
+                                  })
     else:
-            form = BookmarkSaveForm()
+        form = BookmarkSaveForm()
         
-    return render_to_response('bookmark_save.html', RequestContext(request, {'form': form}))
+    variables = RequestContext(request, { 'form': form } )
+    if ajax:
+        return render_to_response('bookmark_save_form.html', variables)
+    else:
+        return render_to_response('bookmark_save.html', variables)
+
+'''
+_ 로 시작하는 함수는 import 하는 다른 모듈에서는 사용할 수 없다.
+'''     
+def _bookmark_save(request, form):     
+    # URL이 있으면 가져오고 없으면 새로 저장합니다.
+    link, dummy = Link.objects.get_or_create( url=form.cleaned_data['url'] )
+    
+    # 북마크가 있으면 가져오고 없으면 새로 저장합니다.
+    bookmark, created = Bookmark.objects.get_or_create( user=request.user, link=link )
+    
+    # 북마크 제목을 수정합니다.
+    bookmark.title = form.cleaned_data['title']
+    
+    # 북마크를 수정한 경우에는 이전에 입력된 모든 태그를 지웁니다.
+    if not created:
+        bookmark.tag_set.clear()
+    
+    # 태그 목록을 새로 만듭니다.
+    tag_names = form.cleaned_data['tags'].split()
+    for tag_name in tag_names:
+            tag, dummy = Tag.objects.get_or_create(name=tag_name)
+            bookmark.tag_set.add(tag)
+            
+    # 북마크를 저장합니다.
+    bookmark.save()
+    
+    return bookmark
             
 def tag_page(request, tag_name):
     tag = get_object_or_404(Tag, name=tag_name)
