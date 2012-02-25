@@ -3,6 +3,9 @@
 {% block external %}
 	<script type="text/javascript" src="/site_media/bookmark_edit.js">
 	</script>
+	<link rel="alternate" type="application/rss+xml"
+		title="Django bookmark | Added by {{ username }}"
+		href="/feeds/user/{{ username }}" />
 {% endblock %}
 {% block title %}{% blocktrans %}{{ username }} {% endblocktrans %}{% endblock %}
 {% block head %} {% blocktrans %}Bookmarks for {{ username }} {% endblocktrans %}

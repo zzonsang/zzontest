@@ -248,3 +248,9 @@ def bookmark_page(request, bookmark_id):
                                         'shared_bookmark' : shared_bookmark
                                          })
     return render_to_response('bookmark_page.html', varialbes)
+
+def ajax_tag_autocomplete(request):
+    if request.GET.has_key('q'):
+        tags = Tag.objects.filter(name__istartswith=request.GET['q'])[:10]
+        return HttpResponse('\n'.join(tag.name for tag in tags))
+    return HttpResponse()
