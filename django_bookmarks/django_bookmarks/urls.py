@@ -6,7 +6,7 @@ from django_bookmarks.bookmarks.views import main_page, user_page, logout_page, 
     bookmark_vote_page, popular_page, bookmark_page
 import os.path
 from django.views.generic.simple import direct_to_template
-from django_bookmarks.bookmarks.feed import RecentBookmarks
+from django_bookmarks.bookmarks.feeds import RecentBookmarks, UserBookmarks
 
 # Uncomment the next two lines to enable the admin:
 admin.autodiscover()
@@ -14,7 +14,8 @@ admin.autodiscover()
 site_media = os.path.join( os.path.dirname(__file__), 'site_media')
 
 feeds = {
-         'recent' : RecentBookmarks
+         'recent' : RecentBookmarks,
+         'user' : UserBookmarks
 }
 
 urlpatterns = patterns('',
