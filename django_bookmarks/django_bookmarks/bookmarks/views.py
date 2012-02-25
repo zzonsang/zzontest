@@ -1,22 +1,27 @@
 # -*- encoding: utf-8 -*-
 
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from django_bookmarks.bookmarks.forms import RegistrationForm, BookmarkSaveForm,\
     SearchForm
-from django_bookmarks.bookmarks.models import Link, Bookmark, Tag
+from django_bookmarks.bookmarks.models import Link, Bookmark, Tag,\
+    SharedBookmark
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime, timedelta
 
 def main_page(request):
 #    request.session['django_language']='en'
     
+    shared_bookmarks = SharedBookmark.objects.order_by('-date')[:10]
+    variables = RequestContext(request, {
+                                        'shared_bookmarks' : shared_bookmarks
+                                        })
     # RequestContext 을 이용하면 기본적으로 User 정보를 넘겨주며, 추가로 다른 변수도 보낼 수 있다.
-    return render_to_response('main_page.html', RequestContext(request))
+    return render_to_response('main_page.html', variables)
 
 def user_page(request, username):
     # get_object_or_404는 첫번째 인자인 'User' 모델에서 'username'을 가져오도록 하고 없으면 '404 Page Not Found'를 출력해준다.
@@ -63,6 +68,7 @@ bookmar_edit.js 에서 해결해야 할 이슈로 보인다.
 # 북마크 입력 페이지
 # 로그인한 사용자만 접근할 수 있도록 제한한다.
 @login_required(login_url='/login/')
+#@permission_required('bookmarks.add_bookmark', login_url="/login/")
 def bookmark_save_page(request):
     ajax = request.GET.has_key('ajax')
     if request.method == 'POST':
@@ -128,8 +134,15 @@ def _bookmark_save(request, form):
     # 태그 목록을 새로 만듭니다.
     tag_names = form.cleaned_data['tags'].split()
     for tag_name in tag_names:
-            tag, dummy = Tag.objects.get_or_create(name=tag_name)
-            bookmark.tag_set.add(tag)
+        tag, dummy = Tag.objects.get_or_create(name=tag_name)
+        bookmark.tag_set.add(tag)
+            
+    # 첫 페이지에서 공유하도록 설정합니다.
+    if form.cleaned_data['share']:
+        shared_bookmark, created = SharedBookmark.objects.get_or_create(bookmark=bookmark)
+        if created:
+            shared_bookmark.users_voted.add(request.user)
+            shared_bookmark.save()
             
     # 북마크를 저장합니다.
     bookmark.save()
@@ -199,5 +212,39 @@ def search_page(request):
     else:
         return render_to_response('search.html', variables)
 
+@login_required(login_url='/login/')
+def bookmark_vote_page(request):
+    if request.GET.has_key('id'):
+        try:
+            id = request.GET['id']
+            shared_bookmark = SharedBookmark.objects.get(id=id)
+            user_voted = shared_bookmark.users_voted.filter(username=request.user.username)
+            
+            if not user_voted:
+                shared_bookmark.votes += 1
+                shared_bookmark.users_voted.add(request.user)
+                shared_bookmark.save()
+        except ObjectDoesNotExist:
+            raise Http404('Not find the bookmark.')
+        
+    if request.META.has_key('HTTP_REFERER'):
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    
+    return HttpResponseRedirect('/')
 
-
+def popular_page(request):
+    today = datetime.today()
+    yesterday = today - timedelta(1)
+    shared_bookmarks = SharedBookmark.objects.filter(date__gt=yesterday)
+    shared_bookmarks = shared_bookmarks.order_by('-votes')[:10]
+    variables = RequestContext(request, {
+                                         'shared_bookmarks' : shared_bookmarks
+                                         })
+    return render_to_response('popular_page.html', variables)
+    
+def bookmark_page(request, bookmark_id):
+    shared_bookmark = get_object_or_404(SharedBookmark, id=bookmark_id)
+    varialbes = RequestContext(request, {
+                                        'shared_bookmark' : shared_bookmark
+                                         })
+    return render_to_response('bookmark_page.html', varialbes)

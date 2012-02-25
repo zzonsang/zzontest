@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Please write the comment.{% endblock %}
+{% block head %}Please wirte the comment.{% endblock %}
+{% block content %}
+	<p>{% trans "Thanks!" %}</p>
+	{% if comment %}
+		<p><a href="/bookmark/{{ comment.object_pk }}/">Please check to the comment.</a></p>
+	{% endif %}
+{% endblock %}

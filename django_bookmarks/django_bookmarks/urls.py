@@ -2,7 +2,8 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django_bookmarks.bookmarks.views import main_page, user_page, logout_page, \
-    register_page, bookmark_save_page, tag_page, tag_cloud_page, search_page
+    register_page, bookmark_save_page, tag_page, tag_cloud_page, search_page,\
+    bookmark_vote_page, popular_page, bookmark_page
 import os.path
 from django.views.generic.simple import direct_to_template
 
@@ -24,6 +25,8 @@ urlpatterns = patterns('',
     
     # Main page
     url(r'^$', main_page),
+    
+    url(r'^popular/$', popular_page),
     
     # User page
     url(r'^user/(\w+)/$', user_page),
@@ -47,6 +50,8 @@ urlpatterns = patterns('',
     # 북마크 저장 페이지
     url(r'^save/$', bookmark_save_page),
     
+    url(r'^vote/$', bookmark_vote_page),
+    
     # 태그 페이지. 태그는 빈칸을 제외한 모든 문자를 허용한다.
     url(r'^tag/([^\s]+)/$', tag_page),
     
@@ -57,5 +62,11 @@ urlpatterns = patterns('',
     url(r'^search/$', search_page),
     
     url(r'^i18n/', include('django.conf.urls.i18n')),
+    
+    url(r'^bookmark/(\d+)/$', bookmark_page),
+)
+
+urlpatterns += patterns('', 
+    url(r'^comments/', include('django.contrib.comments.urls')),
 )
     

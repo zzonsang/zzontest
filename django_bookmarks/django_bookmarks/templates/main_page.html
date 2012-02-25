@@ -4,10 +4,12 @@
 {% block head %}{% trans "Welcome to the Django bookmark" %}{% endblock %}
 {% block content %}
 	{% if user.username %}
-		<p>{% blocktrans %} Welcome to {{ user.username }} , here you can store and share bookmarks.  {% endblocktrans %}</p>
+		<p>{% blocktrans %} Welcome to {{ user.username }} , here you can store and share bookmarks.{% endblocktrans %}</p>
 	{% else %}
 		<p>{% trans "Hi!" %}
 			{% trans "Please to" %} <a href="/login/">login</a>
 		</p>
 	{% endif %}
+	<h2>{% trans "Shared bookmarks for users" %}</h2>
+	{% include 'shared_bookmark_list.html' %}
 {% endblock %}
