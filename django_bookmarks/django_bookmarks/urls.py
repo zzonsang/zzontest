@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- encoding: UTF-8 -*-
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django_bookmarks.bookmarks.views import main_page, user_page, logout_page, \

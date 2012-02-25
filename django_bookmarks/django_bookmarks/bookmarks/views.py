@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- encoding: UTF-8 -*-
 
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, permission_required
