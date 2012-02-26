@@ -12,6 +12,7 @@ from django_bookmarks.bookmarks.models import Link, Bookmark, Tag,\
     SharedBookmark
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime, timedelta
+from django.db.models.query_utils import Q
 
 def main_page(request):
 #    request.session['django_language']='en'
@@ -202,9 +203,22 @@ def search_page(request):
             # gt: 필드의 값이 검색어보다 큰 경우
             # 앞에 'i'가 붙으면 '대소문자' 구분하지 않음
             # 추가로 아래 문법은 [:10] 을 사용하여 첫 번째 10개만 가져온다는 것을 의미한다.
-            bookmarks = Bookmark.objects.filter(title__icontains=query)[:10]
-    
-    variables = RequestContext(request, { 'form': form, 'bookmarks': bookmarks, 'show_results': show_results, 'show_tags': True, 'show_user': True})
+#            bookmarks = Bookmark.objects.filter(title__icontains=query)[:10]
+
+            # ver2. 9.2.3 검색 기능 개선
+            # 검색어를 분리한다.
+            keywords = query.split()
+            q = Q()
+            for keyword in keywords:
+                q = q & Q(title__icontains=keyword)
+            bookmarks = Bookmark.objects.filter(q)[:10]
+            
+    variables = RequestContext(request, {'form': form, 
+                                         'bookmarks': bookmarks, 
+                                         'show_results': show_results, 
+                                         'show_tags': True, 
+                                         'show_user': True
+                                         })
     
     # AJAX 요청인지 확인한다.
     if request.is_ajax():
