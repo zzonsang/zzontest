@@ -13,6 +13,9 @@ from django_bookmarks.bookmarks.models import Link, Bookmark, Tag,\
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime, timedelta
 from django.db.models.query_utils import Q
+from django.core.paginator import Paginator
+
+ITEMS_PER_PAGE = 10
 
 def main_page(request):
 #    request.session['django_language']='en'
@@ -27,13 +30,29 @@ def main_page(request):
 def user_page(request, username):
     # get_object_or_404는 첫번째 인자인 'User' 모델에서 'username'을 가져오도록 하고 없으면 '404 Page Not Found'를 출력해준다.
     user = get_object_or_404(User, username=username)
-    bookmarks = user.bookmark_set.order_by('-id')
+    query_set = user.bookmark_set.order_by('-id')
+    paginator = Paginator(query_set, ITEMS_PER_PAGE)
+    try:
+        page = int(request.GET['page'])
+    except:
+        page = 1
+    try:
+        bookmarks = paginator.page(page)
+    except:
+        raise Http404
     
     variables = RequestContext(request, { 
-                                         'bookmarks': bookmarks, 
+                                         'bookmarks': bookmarks.object_list, 
                                          'username': username, 
                                          'show_tags': True,
-                                         'show_edit': username == request.user.username 
+                                         'show_edit': username == request.user.username,
+                                         'show_paginator' : paginator.num_pages > 1,
+                                         'has_prev' : bookmarks.has_previous(),
+                                         'has_next' : bookmarks.has_next(),
+                                         'page' : page,
+                                         'pages' : paginator.num_pages,
+                                         'next_page' : bookmarks.next_page_number(),
+                                         'prev_page' : bookmarks.previous_page_number(), 
                                          })
     
     return render_to_response('user_page.html', variables)

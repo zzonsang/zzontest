@@ -31,7 +31,18 @@
 			{% endif %}
 		</li>		
 	{% endfor %}
-	</ul>
-	{% else %}
+		</ul>
+	{% if show_paginator %}
+		<div class="paginator">
+			{% if has_prev %}
+				<a href="?page={{ prev_page }}">&laquo; Previous page</a>
+			{% endif %}
+			{% if has_next %}
+				<a href="?page={{ next_page }}">Next page &raquo;</a>
+			{% endif %}
+			( page {{ page }} of {{ pages }} )
+		</div>
+	{% endif %}
+{% else %}
 	<p>{% trans "No bookmarks." %}</p>
 {% endif %}
