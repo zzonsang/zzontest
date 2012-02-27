@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ username }}{% trans "'s friends." %}{% endblock %}
+{% block head %}{{ username }}{% trans "'s friends." %}{% endblock %}
+
+{% block content %}
+	<h2>{% trans "Friends" %}</h2>
+	{% if friends %}
+		<ul class="friends">
+			{% for friend in friends %}
+				<li><a href="/user/{{ friend.username }}/">{{ friend.username }}</a></li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p>{% trans "You don't have to bookmark friends." %}</p>
+	{% endif %}
+	
+	<h2>{% trans "Recent bookmark of your friends" %}</h2>
+	{% include 'bookmark_list.html' %}
+{% endblock %}
+   

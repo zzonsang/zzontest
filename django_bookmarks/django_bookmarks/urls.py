@@ -3,7 +3,8 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django_bookmarks.bookmarks.views import main_page, user_page, logout_page, \
     register_page, bookmark_save_page, tag_page, tag_cloud_page, search_page,\
-    bookmark_vote_page, popular_page, bookmark_page, ajax_tag_autocomplete
+    bookmark_vote_page, popular_page, bookmark_page, ajax_tag_autocomplete,\
+    friends_page
 import os.path
 from django.views.generic.simple import direct_to_template
 from django_bookmarks.bookmarks.feeds import RecentBookmarks, UserBookmarks
@@ -77,8 +78,12 @@ urlpatterns = patterns('',
     url(r'^ajax/tag/autocomplete/$', ajax_tag_autocomplete),
 )
 
-urlpatterns += patterns('', 
+urlpatterns += patterns('Comments', 
     url(r'^comments/', include('django.contrib.comments.urls')),
+)
+
+urlpatterns += patterns('Friends', 
+    url(r'^friends/(\w+)/$', friends_page),
 )
 
 
