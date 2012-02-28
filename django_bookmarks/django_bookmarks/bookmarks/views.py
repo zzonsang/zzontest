@@ -327,7 +327,11 @@ def friend_add(request):
     if request.GET.has_key('username'):
         friend = get_object_or_404(User, username=request.GET['username'])
         friendship = Friendship( from_friend = request.user, to_friend = friend )
-        friendship.save()
+        try:
+            friendship.save()
+            request.user.message_set.create(message='%s has been added as friend.' % friend.username)
+        except:
+            request.user.message_set.create(message='%s is already a friend.' % friend.username)
         return HttpResponseRedirect('/friends/%s/' % (request.user.username) )
     else:
         raise Http404
@@ -344,7 +348,11 @@ def friend_invite(request):
                                     sender = request.user
                                     )
             invitation.save()
-            invitation.send()
+            try:
+                invitation.send()
+                request.user.message_set.create( message=u'%s has sent an invitation message.' % invitation.email)
+            except:
+                request.user.message_set.create( message=u'There was an error in the invite.')
             
             return HttpResponseRedirect('/friend/invite/')
     else:
