@@ -17,6 +17,7 @@ from django.core.paginator import Paginator
 
 ITEMS_PER_PAGE = 10
 
+
 def main_page(request):
 #    request.session['django_language']='en'
     
