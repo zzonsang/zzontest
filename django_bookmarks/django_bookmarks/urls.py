@@ -4,7 +4,7 @@ from django.contrib import admin
 from django_bookmarks.bookmarks.views import main_page, user_page, logout_page, \
     register_page, bookmark_save_page, tag_page, tag_cloud_page, search_page,\
     bookmark_vote_page, popular_page, bookmark_page, ajax_tag_autocomplete,\
-    friends_page
+    friends_page, friend_add
 import os.path
 from django.views.generic.simple import direct_to_template
 from django_bookmarks.bookmarks.feeds import RecentBookmarks, UserBookmarks
@@ -84,6 +84,7 @@ urlpatterns += patterns('Comments',
 
 urlpatterns += patterns('Friends', 
     url(r'^friends/(\w+)/$', friends_page),
+    url(r'^friend/add/$', friend_add),
 )
 
 

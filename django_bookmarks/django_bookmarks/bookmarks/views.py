@@ -9,7 +9,7 @@ from django.template.context import RequestContext
 from django_bookmarks.bookmarks.forms import RegistrationForm, BookmarkSaveForm,\
     SearchForm
 from django_bookmarks.bookmarks.models import Link, Bookmark, Tag,\
-    SharedBookmark
+    SharedBookmark, Friendship
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime, timedelta
 from django.db.models.query_utils import Q
@@ -32,6 +32,7 @@ def user_page(request, username):
     user = get_object_or_404(User, username=username)
     query_set = user.bookmark_set.order_by('-id')
     paginator = Paginator(query_set, ITEMS_PER_PAGE)
+    is_friend = Friendship.objects.filter(from_friend=request.user, to_friend=user)
     try:
         page = int(request.GET['page'])
     except:
@@ -53,6 +54,7 @@ def user_page(request, username):
                                          'pages' : paginator.num_pages,
                                          'next_page' : bookmarks.next_page_number(),
                                          'prev_page' : bookmarks.previous_page_number(), 
+                                         'is_friend' : is_friend,
                                          })
     
     return render_to_response('user_page.html', variables)
@@ -300,3 +302,13 @@ def friends_page(request, username):
                                          'show_user' : True
                                          })
     return render_to_response('friends_page.html', variables)
+
+@login_required(login_url='/login/')
+def friend_add(request):
+    if request.GET.has_key('username'):
+        friend = get_object_or_404(User, username=request.GET['username'])
+        friendship = Friendship( from_friend = request.user, to_friend = friend )
+        friendship.save()
+        return HttpResponseRedirect('/friends/%s/' % (request.user.username) )
+    else:
+        raise Http404

@@ -10,4 +10,16 @@
 {% block title %}{% blocktrans %}{{ username }} {% endblocktrans %}{% endblock %}
 {% block head %} {% blocktrans %}Bookmarks for {{ username }} {% endblocktrans %}
 {% endblock %} 
-{% block content %}{% include "bookmark_list.html" %}{% endblock %}
+{% block content %}
+{% ifequal user.username username %}
+	<a href="/friends/{{ username }}/">{{ username }}{% trans "'s friends." %}
+{% else %}
+	{% if is_friend %}
+		<a href="/friends/{{ user.username }}/">{{ username }} {% trans " is " %}{{ user.username }}{% trans "'s friend." %}</a>
+	{% else %}
+		<a href="/friend/add/?username={{ username }}">{% trans "Add your friend : " %}{{ username }}</a>
+	{% endif %}
+		- <a href="/friends/{{ username }}/">{{ username }}{% trans "'s friends." %}</a>
+{% endifequal %}
+{% include "bookmark_list.html" %}
+{% endblock %}

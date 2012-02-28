@@ -9,7 +9,7 @@
 {% endblock %}
 {% block content %}
 	{% if user.username %}
-		<p>{% blocktrans %} Welcome to {{ user.username }} , here you can store and share bookmarks.{% endblocktrans %}</p>
+		<p>{% blocktrans %} Welcome to {{ user }}, here you can store and share bookmarks.{% endblocktrans %}</p>
 	{% else %}
 		<p>{% trans "Hi!" %}
 			{% trans "Please to" %} <a href="/login/">login</a>
