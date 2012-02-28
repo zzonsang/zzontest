@@ -51,4 +51,6 @@ class BookmarkSaveForm(forms.Form):
 class SearchForm(forms.Form):
     query = forms.CharField(label=gettext_lazy('Please enter a search term.'), widget=forms.TextInput(attrs={'size': 32}))
     
-    
+class FriendInviteForm(forms.Form):
+    name = forms.CharField(label="Friend's name")
+    email = forms.EmailField(label="Friend's email")

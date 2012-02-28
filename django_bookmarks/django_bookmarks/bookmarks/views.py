@@ -7,9 +7,9 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from django_bookmarks.bookmarks.forms import RegistrationForm, BookmarkSaveForm,\
-    SearchForm
+    SearchForm, FriendInviteForm
 from django_bookmarks.bookmarks.models import Link, Bookmark, Tag,\
-    SharedBookmark, Friendship
+    SharedBookmark, Friendship, Invitation
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime, timedelta
 from django.db.models.query_utils import Q
@@ -313,3 +313,26 @@ def friend_add(request):
         return HttpResponseRedirect('/friends/%s/' % (request.user.username) )
     else:
         raise Http404
+
+@login_required(login_url='/login/')
+def friend_invite(request):
+    if request.method == 'POST':
+        form = FriendInviteForm(request.POST)
+        if form.is_valid():
+            invitation = Invitation(
+                                    name = form.cleaned_data['name'],
+                                    email = form.cleaned_data['email'],
+                                    code = User.objects.make_random_password(20),
+                                    sender = request.user
+                                    )
+            invitation.save()
+            invitation.send()
+            
+            return HttpResponseRedirect('/friend/invite/')
+    else:
+        form = FriendInviteForm()
+    
+        variables = RequestContext(request, { 'form' : form })
+        return render_to_response('friend_invite.html', variables)
+
+    

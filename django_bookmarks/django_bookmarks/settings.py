@@ -26,10 +26,12 @@ DATABASES = {
     }
 }
 
-#SITE_HOST = '127.0.0.1:8000'
+SITE_HOST = '127.0.0.1:8000'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
+# your gmail account
 EMAIL_HOST_USER = ''
+# your gmail password
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 
