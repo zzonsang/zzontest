@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Sign up is now complete." %}{% endblock %}
+{% block head %}{% trans "Sign up is now complete." %}{% endblock %}
+{% block content %}
+{% trans "Thank you. For signing up. Your information is stored in the database. Now" %}
+<a href="/login/">{% trans "login" %}</a>{% trans " or " %}
+<a href="/">{% trans "home page" %}</a>{% trans " can move." %}
+{% endblock %}

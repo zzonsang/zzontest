@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block external %}
+	<script type="text/javascript" src="/site_media/bookmark_edit.js">
+	</script>
+	<link rel="alternate" type="application/rss+xml"
+		title="Weekly Report | Added by {{ username }}"
+		href="/feeds/user/{{ username }}" />
+{% endblock %}
+{% block title %} {{ username }} {% endblock %}
+{% block head %} Reports for {{ username }}{% endblock %} 
+{% block content %}
+{% include "report_list.html" %}
+{% endblock %}

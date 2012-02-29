@@ -1,1 +1,18 @@
-hello weekly report
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Welcome! Weekly Report{% endblock %}
+{% block head %}Welcome! Weekly Report{% endblock %}
+{% block external %}
+<link rel="alternate" type="application/rss+xml"
+	title="Weekly Report | Recent report"
+	href="/feeds/recent/" />
+{% endblock %}
+{% block content %}
+	{% if user.username %}
+		<p>Welcome to {{ user }}, here you can store weekly report.</p>
+	{% else %}
+		<p>{% trans "Hi!" %}
+			{% trans "Please to" %} <a href="/login/">login</a>
+		</p>
+	{% endif %}
+{% endblock %}

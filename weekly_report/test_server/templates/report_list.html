@@ -1,0 +1,26 @@
+{% load i18n %}
+{% if reports %}
+	<ul class="reports">
+	{% for report in reports %}
+		<li>
+			{% if show_user %}
+				<a href="/user/{{ report.user.username }}/report/{{ report.id }}/" class="username">
+				{{ report.title }}</a>
+			{% endif %}
+		</li>		
+	{% endfor %}
+		</ul>
+	{% if show_paginator %}
+		<div class="paginator">
+			{% if has_prev %}
+				<a href="?page={{ prev_page }}">&laquo; Previous page</a>
+			{% endif %}
+			{% if has_next %}
+				<a href="?page={{ next_page }}">Next page &raquo;</a>
+			{% endif %}
+			( page {{ page }} of {{ pages }} )
+		</div>
+	{% endif %}
+{% else %}
+	<p>{% trans "No reports." %}</p>
+{% endif %}

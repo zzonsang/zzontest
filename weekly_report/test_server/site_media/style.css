@@ -1,0 +1,23 @@
+#nav {
+	float: right;
+}
+
+input { display: block; }
+
+ul.tags, ul.tags li { display: inline; margin: 0; padding: 0; }
+
+ul.reports .edit {
+	font-size: 70%
+}
+
+.comment {
+	margin: 1em;
+	padding: 5px;
+	border: 1px solid #000;
+}
+
+ul.messages {
+	border: 1px dashed #000;
+	margin: 1em 4em;
+	padding: 1em;
+}

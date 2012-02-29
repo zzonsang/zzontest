@@ -1,13 +1,12 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
-import os
+from test_server import settings
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 admin.autodiscover()
 
-site_media = os.path.join( os.path.dirname(__file__), 'site_media')
-
+# admin
 urlpatterns = patterns('admin',
     # Uncomment the admin/doc line below to enable admin documentation:
      url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -16,6 +15,13 @@ urlpatterns = patterns('admin',
      url(r'^admin/', include(admin.site.urls)),
 )
 
-urlpatterns += patterns('week_report', 
-    url(r'^$', include('weekly_report.urls')),
+# css, image, etc
+urlpatterns += patterns('', 
+     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.site_media} ),
 )
+
+# weekly report application
+urlpatterns += patterns('', 
+    url(r'^', include('weekly_report.urls')),
+)
+

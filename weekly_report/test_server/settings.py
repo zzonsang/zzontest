@@ -11,6 +11,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 PROJECT_HOME=os.path.abspath(os.path.dirname(__file__))
+site_media = os.path.join( os.path.dirname(__file__), 'site_media')
 
 DATABASES = {
     'default': {

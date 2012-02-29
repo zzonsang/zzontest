@@ -1,9 +1,5 @@
 # -*- encoding: UTF-8 -*-
-'''
-Created on 2012. 2. 13.
 
-@author: kobe
-'''
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -39,21 +35,27 @@ class RegistrationForm(forms.Form):
             return username
 #        raise forms.ValidationError('이미 사용 중인 사용자 이름입니다.')
         raise forms.ValidationError('The user name is already in user.')
-
-# 북마크 저장 폼 
-class BookmarkSaveForm(forms.Form):
-    url = forms.URLField(label=gettext_lazy('Address'), widget=forms.TextInput(attrs={'size': 64}))
-    title = forms.CharField(label=gettext_lazy('Title'), widget=forms.TextInput(attrs={'size': 64}))
-    tags = forms.CharField(label=gettext_lazy('Tag'), widget=forms.TextInput(attrs={'size': 64}))
-    share = forms.BooleanField(label=gettext_lazy('On the first page is shared.'), required=False)
     
-# 검색 폼
-class SearchForm(forms.Form):
-    query = forms.CharField(label=gettext_lazy('Please enter a search term.'), widget=forms.TextInput(attrs={'size': 32}))
+# Save weekly report
+class ReportSaveForm(forms.Form):
+    title = forms.CharField(label='Title', widget=forms.TextInput(attrs={'size':100}))
+#    content = forms.CharField(label='Content', widget=forms.TextInput(attrs={'size':100}))
+    content = forms.CharField(widget=forms.Textarea(attrs={'cols': '100', 'rows': '50'}))
     
-class FriendInviteForm(forms.Form):
-    name = forms.CharField(label="Friend's name")
-    email = forms.EmailField(label="Friend's email")
+## 북마크 저장 폼 
+#class BookmarkSaveForm(forms.Form):
+#    url = forms.URLField(label=gettext_lazy('Address'), widget=forms.TextInput(attrs={'size': 64}))
+#    title = forms.CharField(label=gettext_lazy('Title'), widget=forms.TextInput(attrs={'size': 64}))
+#    tags = forms.CharField(label=gettext_lazy('Tag'), widget=forms.TextInput(attrs={'size': 64}))
+#    share = forms.BooleanField(label=gettext_lazy('On the first page is shared.'), required=False)
+#    
+## 검색 폼
+#class SearchForm(forms.Form):
+#    query = forms.CharField(label=gettext_lazy('Please enter a search term.'), widget=forms.TextInput(attrs={'size': 32}))
+#    
+#class FriendInviteForm(forms.Form):
+#    name = forms.CharField(label="Friend's name")
+#    email = forms.EmailField(label="Friend's email")    
     
     
     
