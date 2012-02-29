@@ -40,7 +40,7 @@ class RegistrationForm(forms.Form):
 class ReportSaveForm(forms.Form):
     title = forms.CharField(label='Title', widget=forms.TextInput(attrs={'size':100}))
 #    content = forms.CharField(label='Content', widget=forms.TextInput(attrs={'size':100}))
-    content = forms.CharField(widget=forms.Textarea(attrs={'cols': '100', 'rows': '50'}))
+    content = forms.CharField(widget=forms.Textarea(attrs={'cols': '70', 'rows': '20'}))
     
 ## 북마크 저장 폼 
 #class BookmarkSaveForm(forms.Form):
