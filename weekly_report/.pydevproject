@@ -4,7 +4,9 @@
 <pydev_project>
 <pydev_variables_property name="org.python.pydev.PROJECT_VARIABLE_SUBSTITUTION">
 <key>DJANGO_MANAGE_LOCATION</key>
-<value>weekly_report/manage.py</value>
+<value>test_server/manage.py</value>
+<key>DJANGO_SETTINGS_MODULE</key>
+<value>test_server.settings</value>
 </pydev_variables_property>
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/weekly_report</path>
