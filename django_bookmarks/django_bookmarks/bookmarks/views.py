@@ -367,3 +367,8 @@ def friend_accept(request, code):
     
     return HttpResponseRedirect('/register/')
     
+    
+def highchart_page(request):
+    return render_to_response('highchart.html', None)
+    
+    
