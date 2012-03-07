@@ -370,5 +370,8 @@ def friend_accept(request, code):
     
 def highchart_page(request):
     return render_to_response('highchart.html', None)
+
+def datatables_page(request):
+    return render_to_response('datatables.html', None)
     
     
