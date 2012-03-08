@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+    <title>DataTables live example</title>
+    <style type="text/css">
+      @import "/site_media/datatables/css/demo_page.css";
+      @import "/site_media/datatables/css/demo_table.css";
+    </style>
+    <script type="text/javascript" language="javascript" src="/site_media/jquery.js"></script>
+    <script class="jsbin" src="/site_media/datatables/js/jquery.dataTables.js"></script>
+  </head>
+  <body id="dt_example">
+  	<script type="text/javascript" src="/site_media/datatables_bookmark.js">
+  	</script>
+    <div id="container">
+      <h1>Bookmark Example</h1>
+     
+      <form id="datatable" method="post" action=".">
+			{% csrf_token %}
+			{{ form.as_p }}
+	  </form>
+      
+      <p><a href="javascript:void(0);" onclick="fnClickAddRow();">Click to add a new row</a></p>
+            
+      <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+        <thead>
+          <tr>
+            <th>Address</th>
+            <th>Title</th>
+            <th>Tag</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bookmark in bookmarks %}
+          	 <tr class="gradeA">
+          	 	<td>{{ bookmark.link.url }}</td>
+          	 	<td>{{ bookmark.title }}</td>
+          	 	<td>tags</td>
+          {% endfor %}
+          <tr class="gradeA">
+            <td>Presto</td>
+            <td>Nokia N800</td>
+            <td>N800</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>Address</th>
+            <th>Title</th>
+            <th>Tag</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </body>
+</html>

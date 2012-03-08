@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from django_bookmarks.bookmarks.forms import RegistrationForm, BookmarkSaveForm,\
-    SearchForm, FriendInviteForm
+    SearchForm, FriendInviteForm, DataTablesForm
 from django_bookmarks.bookmarks.models import Link, Bookmark, Tag,\
     SharedBookmark, Friendship, Invitation
 from django.core.exceptions import ObjectDoesNotExist
@@ -184,7 +184,7 @@ def _bookmark_save(request, form):
         if created:
             shared_bookmark.users_voted.add(request.user)
             shared_bookmark.save()
-            
+    
     # 북마크를 저장합니다.
     bookmark.save()
     
@@ -366,8 +366,10 @@ def friend_accept(request, code):
     request.session['invitation'] = invitation.id
     
     return HttpResponseRedirect('/register/')
-    
-    
+
+'''
+test sample codes
+'''     
 def highchart_page(request):
     return render_to_response('highchart.html')
 
@@ -375,8 +377,44 @@ def highchart_dynamic_page(request):
     return render_to_response('highchart_dynamic.html')
 
 def datatables_page(request):
-    return render_to_response('datatables.html')
+    if request.method=='POST':
+        form = DataTablesForm(request.POST)
+        if form.is_valid():
+            # db 처리
+            
+            variables = RequestContext(request, {'form' : form})
+            return render_to_response('datatables.html', variables)
+    else:
+        form = DataTablesForm()
+        
+        variables = RequestContext(request, {'form' : form})
+        
+        return render_to_response('datatables.html', variables)
 
-
+def datatables_bookmark_page(request):
+    if request.method=='POST':
+        form = BookmarkSaveForm(request.POST)
+        if form.is_valid():
+            # db 처리
+            bookmark = _bookmark_save(request, form)
+#            variables = RequestContext(request, {
+#                                                 'bookmarks' : [bookmark],
+#                                                 'show_edit' : True,
+#                                                 'show_tags' : True
+#                                                 
+#            })
+            
+            variables = RequestContext(request, {'form' : form})
+            return render_to_response('datatables_bookmark.html', variables)
+    else:
+        form = BookmarkSaveForm()
+        
+        bookmarks = Bookmark.objects.all()
+        
+        variables = RequestContext(request, {'form' : form,
+                                             'bookmarks' : bookmarks,
+                                             })
+        
+        return render_to_response('datatables_bookmark.html', variables)
     
     

@@ -55,5 +55,11 @@ class FriendInviteForm(forms.Form):
     name = forms.CharField(label="Friend's name")
     email = forms.EmailField(label="Friend's email")
     
-    
+# Data
+class DataTablesForm(forms.Form):
+    engine = forms.CharField(label='Rendering enging', widget=forms.TextInput(attrs={'size': 64}))
+    browser = forms.CharField(label='Browser', widget=forms.TextInput(attrs={'size': 64}))
+    platform = forms.CharField(label='Platform(s)', widget=forms.TextInput(attrs={'size': 64}))
+    version = forms.CharField(label='Engine version', widget=forms.TextInput(attrs={'size': 64}))
+    grade = forms.CharField(label='CSS grade', widget=forms.TextInput(attrs={'size': 64}))
     
