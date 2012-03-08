@@ -5,7 +5,7 @@ from django_bookmarks.bookmarks.views import main_page, user_page, logout_page, 
     register_page, bookmark_save_page, tag_page, tag_cloud_page, search_page,\
     bookmark_vote_page, popular_page, bookmark_page, ajax_tag_autocomplete,\
     friends_page, friend_add, friend_invite, friend_accept, highchart_page,\
-    datatables_page
+    datatables_page, highchart_dynamic_page
 import os.path
 from django.views.generic.simple import direct_to_template
 from django_bookmarks.bookmarks.feeds import RecentBookmarks, UserBookmarks
@@ -79,6 +79,7 @@ urlpatterns = patterns('',
     url(r'^ajax/tag/autocomplete/$', ajax_tag_autocomplete),
     
     url(r'^highchart/$', highchart_page), 
+    url(r'^highchart/dynamic/$', highchart_dynamic_page),
     
     url(r'^datatables/$', datatables_page),
 )
