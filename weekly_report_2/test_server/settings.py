@@ -1,4 +1,5 @@
-# Django settings for weekly_report_2 project.
+# Django settings for test_server project.
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -9,10 +10,13 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+PROJECT_HOME=os.path.abspath(os.path.dirname(__file__))
+site_media = os.path.join( os.path.dirname(__file__), 'site_media')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/Users/zzonsang2/dev/workspaces/revolver/weekly_report_2/sqlite.db',                      # Or path to database file if using sqlite3.
+        'NAME': os.path.join(PROJECT_HOME,'weekly.db'),                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -27,7 +31,7 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Asia/Seoul'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -83,7 +87,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'cnuy8ol!kb@)asn5z3qllof!@+srrs!x!#g95dd+11fv@a29$d'
+SECRET_KEY = 'v_!%pld155%#d5%rgcs5+bfl6qf7b!uhoy2x-0tv2tg$gi4hs6'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -100,12 +104,13 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'weekly_report_2.urls'
+ROOT_URLCONF = 'test_server.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join( os.path.dirname(__file__), 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -116,9 +121,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+     'django.contrib.admindocs',
+     
+     'weekly_report_2',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -126,20 +133,75 @@ INSTALLED_APPS = (
 # the site admins on every HTTP 500 error.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
+#LOGGING = {
+#    'version': 1,
+#    'disable_existing_loggers': False,
+#    'handlers': {
+#        'mail_admins': {
+#            'level': 'ERROR',
+#            'class': 'django.utils.log.AdminEmailHandler'
+#        }
+#    },
+#    'loggers': {
+#        'django.request': {
+#            'handlers': ['mail_admins'],
+#            'level': 'ERROR',
+#            'propagate': True,
+#        },
+#    }
+#}
+LOG_DIR=os.path.join(PROJECT_HOME, 'logs')
+
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+        },
+    },
     'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
+        'default': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'django_log.log'),
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount': 5,
+            'formatter':'standard',
+        },  
+        'request_handler': {
+                'level':'DEBUG',
+                'class':'logging.handlers.RotatingFileHandler',
+                'filename': os.path.join(LOG_DIR, 'django_request.log'),
+                'maxBytes': 1024*1024*5, # 5 MB
+                'backupCount': 5,
+                'formatter':'standard',
+        },
+        'weekly_report_handler': {
+                'level':'DEBUG',
+                'class':'logging.handlers.RotatingFileHandler',
+                'filename': os.path.join(LOG_DIR, 'weekly_report.log'),
+                'maxBytes': 1024*1024*5, # 5 MB
+                'backupCount': 5,
+                'formatter':'standard',
+        },
     },
     'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
+
+        '': {
+            'handlers': ['default'],
+            'level': 'DEBUG',
+            'propagate': True
         },
+        'django.request': { # Stop SQL debug from logging to main logger
+            'handlers': ['request_handler'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'weekly_report': { # Revolver server logging
+            'handlers': ['weekly_report_handler'],
+            'level': 'DEBUG',
+            'propagate': False               
+        },    
     }
 }

@@ -1,0 +1,25 @@
+{% extends "admin/auth/user/add_form.html" %}
+{% load i18n %}
+{% block title %}{{ title|escape }} | {% trans 'VDI - Weekly Report' %}{% endblock %}
+{% block branding %}
+<h1 id="site-name">{% trans 'VDI - Weekly Report' %}</h1>
+{% endblock %}
+{% block content %}
+	{% if reports %}
+		<table class="reports" border="1">
+			<tr>
+				<th>Name</th>
+				<th>Report</th>
+				<th>Plan</th>
+			</tr>
+			{% for report in reports %}
+			<tr>
+				<td>{{ report.user.username|escape }}</td>
+				<td>{{ report.content|escape }}</td>
+				<td>{{ report.content_next|safe }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+{% endblock %}
+{% block nav-global %}{% endblock %}
