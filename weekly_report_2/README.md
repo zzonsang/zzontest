@@ -1,0 +1,1 @@
+django admin site 을 이용하여 주간보고 페이지를 만든다.
