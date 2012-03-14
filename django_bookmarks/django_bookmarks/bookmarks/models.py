@@ -26,6 +26,10 @@ class Bookmark(models.Model):
     def get_absolute_url(self):
         return self.link.url
     
+#    def colored_title(self):
+#        return '<span style="color: #%s;">%s</span>' % (self.color_code, self.title)
+#    colored_title.allow_tags = True
+    
 class Tag(models.Model):
     name = models.CharField(max_length=64, unique=True)
     
