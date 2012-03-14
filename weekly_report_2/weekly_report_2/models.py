@@ -17,4 +17,7 @@ class Report(models.Model):
     class Meta:
         verbose_name = "Weekly Report"
         unique_together = (('user', 'date'))
+        permissions = (
+                       ("view_reports", "Can see all reports"),
+        )
     

@@ -15,7 +15,8 @@ class ReportAdmin(admin.ModelAdmin):
     def queryset(self, request):
         qs = super(ReportAdmin, self).queryset(request)
         # 팀장 권한이 있다면 팀원들 것이 모두 보이도록 수정   
-        if request.user.is_superuser:
+#        if request.user.is_superuser:
+        if request.user.has_perm('weekly_report_2.view_reports'):
             return qs
         return qs.filter(user=request.user)
     
@@ -26,7 +27,8 @@ class ReportAdmin(admin.ModelAdmin):
    
     def get_actions(self, request):
         actions = super(ReportAdmin, self).get_actions(request)
-        if not request.user.is_superuser: # 관리자 권한 말구, 팀장 권한을 하나 만들어야 함.
+#        if not request.user.is_superuser: # 관리자 권한 말구, 팀장 권한을 하나 만들어야 함.
+        if not request.user.has_perm('weekly_report_2.view_reports'):
             if 'view_contents' in actions:
                 del actions['view_contents']
         return actions
