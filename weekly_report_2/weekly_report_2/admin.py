@@ -2,7 +2,7 @@
 from django.contrib import admin
 from weekly_report_2.models import Report
 from django.contrib.auth.models import User
-from weekly_report_2.admin_action import view_contents
+from weekly_report_2.admin_action import view_contents, export_excel_contents
 
 '''
 Report 모델에 대한 Admin 모델 
@@ -42,4 +42,5 @@ admin.site.register(Report, ReportAdmin),
 Action 등록 
 '''
 admin.site.add_action(view_contents, 'view_contents')
+admin.site.add_action(export_excel_contents, 'export_excel_contents')
 

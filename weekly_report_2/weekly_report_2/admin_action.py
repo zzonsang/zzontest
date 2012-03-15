@@ -2,6 +2,7 @@
 from django.shortcuts import render_to_response
 import logging
 from django.template.context import RequestContext
+from excel_response import ExcelResponse
 
 logger = logging.getLogger('weekly_report')
 
@@ -15,3 +16,7 @@ def view_contents(modeladmin, request, queryset):
     variables = RequestContext(request, { 'reports' : queryset })
 
     return render_to_response('view_content.html', variables)
+
+def export_excel_contents(modeladmin, reqeust, queryset):
+    logger.debug(queryset)
+    return ExcelResponse(queryset)
