@@ -12,6 +12,11 @@ def view_contents(modeladmin, request, queryset):
     
     logger.debug(queryset)
         
+    
+        
     variables = RequestContext(request, { 'reports' : queryset })
+    
+    for report in queryset:
+        logger.debug(report.content_next)
 
     return render_to_response('view_content.html', variables)
