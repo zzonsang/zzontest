@@ -41,6 +41,6 @@ admin.site.register(Report, ReportAdmin),
 '''
 Action 등록 
 '''
-admin.site.add_action(view_contents, 'view_contents')
-admin.site.add_action(export_excel_contents, 'export_excel_contents')
+admin.site.add_action(view_contents, 'View_Contents')
+admin.site.add_action(export_excel_contents, 'Export_Excel_Contents')
 
