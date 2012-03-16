@@ -14,9 +14,9 @@
 			</tr>
 			{% for report in reports %}
 			<tr>
-				<td>{{ report.user.username|escape }}</td>
-				<td>{{ report.content|escape }}</td>
-				<td>{{ report.content_next|safe }}</td>
+				<td>{{ report.user.username|linebreaksbr }}</td>
+				<td>{{ report.content|linebreaksbr }}</td>
+				<td>{{ report.content_next|linebreaksbr }}</td>
 			</tr>
 			{% endfor %}
 		</table>
