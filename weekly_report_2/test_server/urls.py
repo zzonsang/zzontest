@@ -5,5 +5,5 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-        url(r'^', include('weekly_report_2.urls')),
+        url(r'^', include('vdi_report.urls')),
 )
