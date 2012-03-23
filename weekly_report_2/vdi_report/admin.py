@@ -13,6 +13,12 @@ class ReportAdmin(admin.ModelAdmin):
     list_display_links = ("user", "content", "content_next", "date")
     list_filter = ("user__username", "date")
     
+    related_lookup_fields = { 'fk' :['user'], }
+    
+#    related_lookup_fields = {
+#                             'generic' : [['user', 'date'], ['content', 'content_next']], 
+#    }
+    
     def queryset(self, request):
         qs = super(ReportAdmin, self).queryset(request)
         # 팀장 권한이 있다면 팀원들 것이 모두 보이도록 수정   

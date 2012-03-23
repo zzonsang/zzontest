@@ -70,6 +70,8 @@ STATIC_URL = '/static/'
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
 #ADMIN_MEDIA_PREFIX = '/static/admin/'
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
+GRAPPELLI_ADMIN_TITLE = "Weekly Report"
+#GRAPPELLI_INDEX_DASHBOARD = 'vdi_report.dashboard.CustomIndexDashboard'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -98,10 +100,16 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.auth',
-    'django.core.context_processors.i18n',
+    
     'django.core.context_processors.request',
+    
+    'django.core.context_processors.i18n',
+    
+    'django.contrib.messages.context_processors.messages',
+    
     'django.core.context_processors.media',
     'django.core.context_processors.static',
+    
 #    'cms.context_processors.media',
 #    'sekizai.context_processors.sekizai',
 )
@@ -132,8 +140,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    # Grappelli
+#    'grappelli.dashboard',
     'grappelli',
-    # Uncomment the next line to enable the admin:
+#     Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
