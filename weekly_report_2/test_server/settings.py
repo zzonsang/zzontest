@@ -68,7 +68,8 @@ STATIC_URL = '/static/'
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+#ADMIN_MEDIA_PREFIX = '/static/admin/'
+ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -95,13 +96,27 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.eggs.Loader',
 )
 
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.auth',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.request',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+#    'cms.context_processors.media',
+#    'sekizai.context_processors.sekizai',
 )
+
+
+#MIDDLEWARE_CLASSES = (
+#    'django.middleware.common.CommonMiddleware',
+#    'django.contrib.sessions.middleware.SessionMiddleware',
+#    'django.middleware.csrf.CsrfViewMiddleware',
+#    'django.contrib.auth.middleware.AuthenticationMiddleware',
+#    'django.contrib.messages.middleware.MessageMiddleware',
+#    'cms.middleware.page.CurrentPageMiddleware',
+#    'cms.middleware.user.CurrentUserMiddleware',
+#    'cms.middleware.toolbar.ToolbarMiddleware',
+#)
 
 ROOT_URLCONF = 'test_server.urls'
 
@@ -116,10 +131,27 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'grappelli',
     # Uncomment the next line to enable the admin:
-     'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-     'django.contrib.admindocs',
+    'django.contrib.admindocs',
+     
+#     # Django-CMS
+#    'cms',
+#    'menus',
+#    'mptt',
+#    'south',
+#    'cms.plugins.text',
+#    'cms.plugins.picture',
+#    'cms.plugins.link',
+#    'cms.plugins.file',
+#    'cms.plugins.snippet',
+#    'cms.plugins.googlemap',
+#    'sekizai',
+     
+     # REPORT
      'vdi_report',
 )
 
