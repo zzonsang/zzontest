@@ -3,6 +3,7 @@ from django.contrib import admin
 from vdi_report.models import Report
 from django.contrib.auth.models import User
 from vdi_report.admin_action import view_contents, export_excel_contents
+from django.contrib.sites.models import Site
 
 '''
 Report 모델에 대한 Admin 모델 
@@ -37,6 +38,11 @@ class ReportAdmin(admin.ModelAdmin):
 Model 등록
 '''            
 admin.site.register(Report, ReportAdmin),
+
+'''
+Model 제거 
+'''
+admin.site.unregister(Site)
 
 '''
 Action 등록 
