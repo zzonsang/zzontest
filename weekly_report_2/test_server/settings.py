@@ -11,7 +11,6 @@ ADMINS = (
 MANAGERS = ADMINS
 
 PROJECT_HOME=os.path.abspath(os.path.dirname(__file__))
-site_media = os.path.join( os.path.dirname(__file__), 'site_media')
 
 DATABASES = {
     'default': {
@@ -35,7 +34,7 @@ TIME_ZONE = 'Asia/Seoul'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
 SITE_ID = 1
 
@@ -139,7 +138,7 @@ LOGGING = {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(LOG_DIR, 'django_log.log'),
-            'maxBytes': 1024*1024*5, # 5 MB
+#            'maxBytes': 1024*1024*5, # 5 MB
             'backupCount': 5,
             'formatter':'standard',
         },  
@@ -147,7 +146,7 @@ LOGGING = {
                 'level':'DEBUG',
                 'class':'logging.handlers.RotatingFileHandler',
                 'filename': os.path.join(LOG_DIR, 'django_request.log'),
-                'maxBytes': 1024*1024*5, # 5 MB
+#                'maxBytes': 1024*1024*5, # 5 MB
                 'backupCount': 5,
                 'formatter':'standard',
         },
@@ -155,7 +154,7 @@ LOGGING = {
                 'level':'DEBUG',
                 'class':'logging.handlers.RotatingFileHandler',
                 'filename': os.path.join(LOG_DIR, 'weekly_report.log'),
-                'maxBytes': 1024*1024*5, # 5 MB
+#                'maxBytes': 1024*1024*5, # 5 MB
                 'backupCount': 5,
                 'formatter':'standard',
         },
