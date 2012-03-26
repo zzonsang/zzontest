@@ -59,7 +59,7 @@ setup(name='Weekly Report',
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'Django>=1.3', 
+        'Django==1.3', 
         'django-grappelli'
     ],
 )
