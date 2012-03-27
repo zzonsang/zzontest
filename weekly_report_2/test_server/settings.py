@@ -69,15 +69,15 @@ STATIC_URL = '/static/'
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
-ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
-GRAPPELLI_ADMIN_TITLE = "Weekly Report"
-GRAPPELLI_INDEX_DASHBOARD = 'vdi_report.dashboard.CustomIndexDashboard'
+#ADMIN_MEDIA_PREFIX = '/static/admin/'
+#ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
+#GRAPPELLI_ADMIN_TITLE = "Weekly Report"
+#GRAPPELLI_INDEX_DASHBOARD = 'vdi_report.dashboard.CustomIndexDashboard'
 
-#ADMIN_TOOLS_THEMING_CSS = 'css/theming.css'
-#ADMIN_TOOLS_MENU = 'test_server.cus_admin_tools_menu.CustomMenu'
-#ADMIN_TOOLS_INDEX_DASHBOARD = 'test_server.cus_admin_tools_dashboard.CustomIndexDashboard'
-#ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'test_server.cus_admin_tools_dashboard.CustomAppIndexDashboard'
+ADMIN_TOOLS_THEMING_CSS = 'css/theming.css'
+ADMIN_TOOLS_MENU = 'test_server.cus_admin_tools_menu.CustomMenu'
+ADMIN_TOOLS_INDEX_DASHBOARD = 'test_server.cus_admin_tools_dashboard.CustomIndexDashboard'
+ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'test_server.cus_admin_tools_dashboard.CustomAppIndexDashboard'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -129,14 +129,15 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     
     # django-admin-tools
-#    'admin_tools',
-#    'admin_tools.theming',
-#    'admin_tools.menu',
-#    'admin_tools.dashboard',
+    'admin_tools',
+    'admin_tools.theming',
+    'admin_tools.menu',
+    'admin_tools.dashboard',
     
     # Grappelli
-    'grappelli.dashboard',
-    'grappelli',
+#    'grappelli.dashboard',
+#    'grappelli',
+
 #     Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
