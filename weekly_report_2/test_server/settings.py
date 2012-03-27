@@ -34,7 +34,8 @@ TIME_ZONE = 'Asia/Seoul'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'ko-kr'
+#LANGUAGE_CODE = 'ko-kr'
+LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 
@@ -68,10 +69,15 @@ STATIC_URL = '/static/'
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-#ADMIN_MEDIA_PREFIX = '/static/admin/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 GRAPPELLI_ADMIN_TITLE = "Weekly Report"
 GRAPPELLI_INDEX_DASHBOARD = 'vdi_report.dashboard.CustomIndexDashboard'
+
+#ADMIN_TOOLS_THEMING_CSS = 'css/theming.css'
+#ADMIN_TOOLS_MENU = 'test_server.cus_admin_tools_menu.CustomMenu'
+#ADMIN_TOOLS_INDEX_DASHBOARD = 'test_server.cus_admin_tools_dashboard.CustomIndexDashboard'
+#ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'test_server.cus_admin_tools_dashboard.CustomAppIndexDashboard'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -99,32 +105,14 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.auth',
-    
+    # default template context processors
+    'django.core.context_processors.auth',    
     'django.core.context_processors.request',
-    
     'django.core.context_processors.i18n',
-    
     'django.contrib.messages.context_processors.messages',
-    
     'django.core.context_processors.media',
     'django.core.context_processors.static',
-    
-#    'cms.context_processors.media',
-#    'sekizai.context_processors.sekizai',
 )
-
-
-#MIDDLEWARE_CLASSES = (
-#    'django.middleware.common.CommonMiddleware',
-#    'django.contrib.sessions.middleware.SessionMiddleware',
-#    'django.middleware.csrf.CsrfViewMiddleware',
-#    'django.contrib.auth.middleware.AuthenticationMiddleware',
-#    'django.contrib.messages.middleware.MessageMiddleware',
-#    'cms.middleware.page.CurrentPageMiddleware',
-#    'cms.middleware.user.CurrentUserMiddleware',
-#    'cms.middleware.toolbar.ToolbarMiddleware',
-#)
 
 ROOT_URLCONF = 'test_server.urls'
 
@@ -140,8 +128,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    # django-admin-tools
+#    'admin_tools',
+#    'admin_tools.theming',
+#    'admin_tools.menu',
+#    'admin_tools.dashboard',
+    
     # Grappelli
-#    'grappelli.dashboard',
+    'grappelli.dashboard',
     'grappelli',
 #     Uncomment the next line to enable the admin:
     'django.contrib.admin',
