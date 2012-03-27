@@ -2,14 +2,13 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 class Report(models.Model):
     user = models.ForeignKey(User)
-    date = models.DateField(verbose_name=u'Friday')
-#    title = models.CharField(max_length=100)
+    date = models.DateField(verbose_name=u'Friday', default=datetime.now())
     content = models.TextField(verbose_name=u'Report')
     content_next = models.TextField(verbose_name=u'Plan')
-#    date = models.DateTimeField(auto_now_add=True, verbose_name='')
         
     def __unicode__(self):
         return '%s, %s' % (self.user.username, self.date)
@@ -20,7 +19,6 @@ class Report(models.Model):
         permissions = (
                        ("view_reports", "Can see all reports"),
         )
-        
         ordering = ['-date']
         
 #    @staticmethod    

@@ -47,7 +47,7 @@ class CustomIndexDashboard(Dashboard):
             _('AppList: Applications'),
             collapsible=True,
             column=1,
-            css_classes=('collapse closed',),
+#            css_classes=('collapse closed',),
             exclude=('django.contrib.*',),
         ))
         

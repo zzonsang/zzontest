@@ -71,7 +71,7 @@ STATIC_URL = '/static/'
 #ADMIN_MEDIA_PREFIX = '/static/admin/'
 ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 GRAPPELLI_ADMIN_TITLE = "Weekly Report"
-#GRAPPELLI_INDEX_DASHBOARD = 'vdi_report.dashboard.CustomIndexDashboard'
+GRAPPELLI_INDEX_DASHBOARD = 'vdi_report.dashboard.CustomIndexDashboard'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
