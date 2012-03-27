@@ -14,8 +14,13 @@ urlpatterns = patterns('',
 #     Uncomment the next line to enable the admin:
      url(r'', include(admin.site.urls)),
      
-     url(r'^grappelli/', include('grappelli.urls')),
-     
       # css
      url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': site_media} ),
+     
+     # grappelii
+#     url(r'^grappelli/', include('grappelli.urls')),
+     
+     # django-admin-tools
+     url(r'^admin_tools/', include('admin_tools.urls')),
 )
+
