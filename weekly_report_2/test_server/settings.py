@@ -127,7 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # django-admin-tools
     'admin_tools',
     'admin_tools.theming',
@@ -138,11 +138,16 @@ INSTALLED_APPS = (
 #    'grappelli.dashboard',
 #    'grappelli',
 
+    'vdi_report',
+
 #     Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
      
+     # REPORT
+    
+    
 #     # Django-CMS
 #    'cms',
 #    'menus',
@@ -155,9 +160,6 @@ INSTALLED_APPS = (
 #    'cms.plugins.snippet',
 #    'cms.plugins.googlemap',
 #    'sekizai',
-     
-     # REPORT
-     'vdi_report',
 )
 
 LOG_DIR=os.path.join(PROJECT_HOME, 'logs')

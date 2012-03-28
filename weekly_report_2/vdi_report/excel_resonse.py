@@ -3,7 +3,6 @@ import datetime
 from django.db.models.query import QuerySet, ValuesQuerySet
 from django.http import HttpResponse
 
-
 class ExcelResponse(HttpResponse):
     
     def __init__(self, data, output_name='excel_data', headers=None,
