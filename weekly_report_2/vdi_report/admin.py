@@ -1,6 +1,6 @@
 # -*- encoding: UTF-8 -*-
 from django.contrib import admin
-from vdi_report.models import Report
+from vdi_report.models import Report, CustomFeed
 from django.contrib.auth.models import User
 from vdi_report.admin_action import view_contents, export_excel_contents
 from django.contrib.sites.models import Site
@@ -33,11 +33,17 @@ class ReportAdmin(admin.ModelAdmin):
             if 'View_Contents' in actions:
                 del actions['View_Contents']
         return actions
+     
+class CustomFeedAdmin(admin.ModelAdmin):   
+    list_display = ('title', 'feed_url', 'limit',)
+    list_display_links = ('title', 'feed_url', 'limit',)
+    list_filter = ('title', )
             
 '''
 Model 등록
 '''            
 admin.site.register(Report, ReportAdmin),
+admin.site.register(CustomFeed, CustomFeedAdmin),
 
 '''
 Model 제거 

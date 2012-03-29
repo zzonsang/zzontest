@@ -24,3 +24,11 @@ class Report(models.Model):
 #    @staticmethod    
 #    def autocomplete_search_field():
 #        return ('id__iexact', 'content__icontains', )
+
+class CustomFeed(models.Model):
+    title = models.CharField(max_length=20)
+    feed_url = models.URLField()
+    limit = models.IntegerField()
+    
+    def __unicode__(self):
+        return self.title

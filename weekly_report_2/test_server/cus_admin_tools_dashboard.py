@@ -15,9 +15,12 @@ from django.core.urlresolvers import reverse
 
 from admin_tools.dashboard import modules, Dashboard, AppIndexDashboard
 from admin_tools.utils import get_admin_site_name
+from vdi_report.models import CustomFeed
 
 
 class CustomIndexDashboard(Dashboard):
+    columns = 3
+    
     """
     Custom index dashboard for test_server.
     """
@@ -32,6 +35,7 @@ class CustomIndexDashboard(Dashboard):
             collapsible=False,
             children=[
                 [_('Return to site'), '/'],
+                [_('Add report'), '/vdi_report/report/add/'],
                 [_('Change password'),
                  reverse('%s:password_change' % site_name)],
                 [_('Log out'), reverse('%s:logout' % site_name)],
@@ -59,6 +63,16 @@ class CustomIndexDashboard(Dashboard):
             feed_url='http://www.djangoproject.com/rss/weblog/',
             limit=5
         ))
+        
+        # append custom feed modules
+        feeds = CustomFeed.objects.all()
+        for feed in feeds:
+            self.children.append(modules.Feed(
+                _(feed.title),
+                feed_url = feed.feed_url,
+                limit = feed.limit,
+                enabled=False
+            ))
 
         # append another link list module for "support".
         self.children.append(modules.LinkList(
