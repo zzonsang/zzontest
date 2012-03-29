@@ -13,8 +13,6 @@ class ReportAdmin(admin.ModelAdmin):
     list_display_links = ("user", "content", "content_next", "date")
     list_filter = ("user__username", "date")
     
-#    related_lookup_fields = { 'fk' :['user'], }
-    
     def queryset(self, request):
         qs = super(ReportAdmin, self).queryset(request)
         # 팀장 권한이 있다면 팀원들 것이 모두 보이도록 수정   
@@ -30,9 +28,9 @@ class ReportAdmin(admin.ModelAdmin):
    
     def get_actions(self, request):
         actions = super(ReportAdmin, self).get_actions(request)
-#        if not request.user.is_superuser: # 관리자 권한 말구, 팀장 권한을 하나 만들어야 함.
+        
         if not request.user.has_perm('vdi_report.view_reports'):
-            if 'view_contents' in actions:
+            if 'View_Contents' in actions:
                 del actions['View_Contents']
         return actions
             

@@ -10,12 +10,14 @@
 		<table class="reports" border="1" id='result_list' cellspacing="0" width='100%'>
 			<tr class="row1">
 				<th class="nowrap">Name</th>
+				<th class="nowrap">Date</th>
 				<th class="nowrap">Report</th>
 				<th class="nowrap">Plan</th>
 			</tr>
 			{% for report in reports %}
 			<tr class="row2">
-				<td>{{ report.user.username|linebreaksbr }}</td>
+				<td>{{ report.user.last_name }}{{ report.user.first_name }}</td>
+				<td>{{ report.date }}</td>
 				<td>{{ report.content|linebreaksbr }}</td>
 				<td>{{ report.content_next|linebreaksbr }}</td>
 			</tr>
