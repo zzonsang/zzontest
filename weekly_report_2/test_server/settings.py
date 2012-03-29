@@ -69,10 +69,6 @@ STATIC_URL = '/static/'
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-#ADMIN_MEDIA_PREFIX = '/static/admin/'
-#ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
-#GRAPPELLI_ADMIN_TITLE = "Weekly Report"
-#GRAPPELLI_INDEX_DASHBOARD = 'vdi_report.dashboard.CustomIndexDashboard'
 
 ADMIN_TOOLS_THEMING_CSS = 'css/theming.css'
 ADMIN_TOOLS_MENU = 'test_server.cus_admin_tools_menu.CustomMenu'
@@ -133,33 +129,11 @@ INSTALLED_APPS = (
     'admin_tools.theming',
     'admin_tools.menu',
     'admin_tools.dashboard',
-    
-    # Grappelli
-#    'grappelli.dashboard',
-#    'grappelli',
 
     'vdi_report',
 
-#     Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    'django.contrib.admindocs',
-     
-     # REPORT
-    
-    
-#     # Django-CMS
-#    'cms',
-#    'menus',
-#    'mptt',
-#    'south',
-#    'cms.plugins.text',
-#    'cms.plugins.picture',
-#    'cms.plugins.link',
-#    'cms.plugins.file',
-#    'cms.plugins.snippet',
-#    'cms.plugins.googlemap',
-#    'sekizai',
+    'django.contrib.admindocs',    
 )
 
 LOG_DIR=os.path.join(PROJECT_HOME, 'logs')
@@ -177,7 +151,6 @@ LOGGING = {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(LOG_DIR, 'django_log.log'),
-#            'maxBytes': 1024*1024*5, # 5 MB
             'backupCount': 5,
             'formatter':'standard',
         },  
@@ -185,7 +158,6 @@ LOGGING = {
                 'level':'DEBUG',
                 'class':'logging.handlers.RotatingFileHandler',
                 'filename': os.path.join(LOG_DIR, 'django_request.log'),
-#                'maxBytes': 1024*1024*5, # 5 MB
                 'backupCount': 5,
                 'formatter':'standard',
         },
@@ -193,7 +165,6 @@ LOGGING = {
                 'level':'DEBUG',
                 'class':'logging.handlers.RotatingFileHandler',
                 'filename': os.path.join(LOG_DIR, 'weekly_report.log'),
-#                'maxBytes': 1024*1024*5, # 5 MB
                 'backupCount': 5,
                 'formatter':'standard',
         },
