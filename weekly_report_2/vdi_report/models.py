@@ -13,6 +13,12 @@ class Report(models.Model):
     def __unicode__(self):
         return '%s, %s' % (self.user.username, self.date)
     
+    def name(self):
+        name = '%s%s' % (self.user.last_name, self.user.first_name)
+        if name == "":
+            return self.user.username
+        return name
+    
     class Meta:
         verbose_name = u"Weekly Report"
         unique_together = (('user', 'date'))

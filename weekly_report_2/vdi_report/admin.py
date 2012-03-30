@@ -4,14 +4,21 @@ from vdi_report.models import Report, CustomFeed
 from django.contrib.auth.models import User
 from vdi_report.admin_action import view_contents, export_excel_contents
 from django.contrib.sites.models import Site
+import logging
 
+logger = logging.getLogger('weekly_report')
+
+def customizing_username(obj):
+    logger.debug(obj)
+    logger.debug(obj.last_name)
+    return ('%s%s' % (obj.user__last_name, obj.user__first_name) )
 '''
 Report 모델에 대한 Admin 모델 
 '''
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ("user", "date", "content", "content_next", )
-    list_display_links = ("user", "content", "content_next", "date")
-    list_filter = ("user__username", "date")
+    list_display = ( 'name', "date", "content", "content_next", )
+    list_display_links = ("name", "content", "content_next", "date")
+    list_filter = ("user__first_name", "date")
     
     def queryset(self, request):
         qs = super(ReportAdmin, self).queryset(request)
