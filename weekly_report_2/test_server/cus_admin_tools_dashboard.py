@@ -16,7 +16,9 @@ from django.core.urlresolvers import reverse
 from admin_tools.dashboard import modules, Dashboard, AppIndexDashboard
 from admin_tools.utils import get_admin_site_name
 from vdi_report.models import CustomFeed
+import logging
 
+logger = logging.getLogger('weekly_report')
 
 class CustomIndexDashboard(Dashboard):
     columns = 3
@@ -25,7 +27,9 @@ class CustomIndexDashboard(Dashboard):
     Custom index dashboard for test_server.
     """
     def init_with_context(self, context):
+        
         site_name = get_admin_site_name(context)
+        logger.debug('[sitename][%s]' % site_name)
         # append a link list module for "quick links"
         self.children.append(modules.LinkList(
             _('Quick links'),
@@ -57,23 +61,24 @@ class CustomIndexDashboard(Dashboard):
         # append a recent actions module
         self.children.append(modules.RecentActions(_('Recent Actions'), 5))
 
-        # append a feed module
-        self.children.append(modules.Feed(
-            _('Latest Django News'),
-            feed_url='http://www.djangoproject.com/rss/weblog/',
-            limit=5,
-            enabled=False
-        ))
-        
         # append custom feed modules
         feeds = CustomFeed.objects.all()
         for feed in feeds:
+            logger.debug('[feed]' + feed.title)
             self.children.append(modules.Feed(
                 _(feed.title),
                 feed_url = feed.feed_url,
                 limit = feed.limit,
                 enabled=False
             ))
+
+        # append a feed module
+        self.children.append(modules.Feed(
+            _('Latest Django News'),
+            feed_url='http://www.djangoproject.com/rss/weblog/',
+            limit=5,
+#            enabled=False
+        ))
 
         # append another link list module for "support".
         self.children.append(modules.LinkList(
@@ -118,9 +123,31 @@ class CustomAppIndexDashboard(AppIndexDashboard):
                 limit=5
             )
         ]
+        
+#        # append custom feed modules
+#        feeds = CustomFeed.objects.all()
+#        for feed in feeds:
+#            logger.debug('[feed]' + feed.title)
+#            self.children.append(modules.Feed(
+#                _(feed.title),
+#                feed_url = feed.feed_url,
+#                limit = feed.limit,
+#                enabled=False
+#            ))
 
     def init_with_context(self, context):
         """
         Use this method if you need to access the request context.
         """
+#        # append custom feed modules
+#        feeds = CustomFeed.objects.all()
+#        for feed in feeds:
+#            logger.debug('[feed]' + feed.title)
+#            self.children.append(modules.Feed(
+#                _(feed.title),
+#                feed_url = feed.feed_url,
+#                limit = feed.limit,
+#                enabled=False
+#            ))
+        
         return super(CustomAppIndexDashboard, self).init_with_context(context)
