@@ -7,8 +7,8 @@ from datetime import datetime
 class Report(models.Model):
     user = models.ForeignKey(User)
     date = models.DateField(verbose_name=u'Friday', default=datetime.now())
-    content = models.TextField(verbose_name=u'Report')
-    content_next = models.TextField(verbose_name=u'Plan')
+    content = models.TextField(verbose_name=u'Report', blank=True)
+    content_next = models.TextField(verbose_name=u'Plan', blank=True)
         
     def __unicode__(self):
         return '%s, %s' % (self.user.username, self.date)
