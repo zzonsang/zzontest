@@ -32,7 +32,7 @@ class Report(models.Model):
 #        return ('id__iexact', 'content__icontains', )
 
 class CustomFeed(models.Model):
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=40)
     feed_url = models.URLField()
     limit = models.IntegerField()
     

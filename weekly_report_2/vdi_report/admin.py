@@ -16,6 +16,7 @@ def customizing_username(obj):
 Report 모델에 대한 Admin 모델 
 '''
 class ReportAdmin(admin.ModelAdmin):
+    # 'name'으로 처리한 것은 정렬이 안된다. 한글이라 안되는 건 아닌 듯하구??
     list_display = ( 'name', "date", "content", "content_next", )
     list_display_links = ("name", "content", "content_next", "date")
     list_filter = ("user__first_name", "date")
