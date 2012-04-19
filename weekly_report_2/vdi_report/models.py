@@ -6,7 +6,7 @@ from datetime import date
 
 class Report(models.Model):
     user = models.ForeignKey(User)
-    date = models.DateField(verbose_name=u'Friday', default=date.today())
+    date = models.DateField(verbose_name=u'Friday', default=date.today)
     content = models.TextField(verbose_name=u'Report', blank=True)
     content_next = models.TextField(verbose_name=u'Plan', blank=True)
         
